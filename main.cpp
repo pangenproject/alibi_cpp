@@ -16,6 +16,8 @@ int main(){
     Block<int> block2(2, "actg");
     Block<int> block3(3, "actg");
     block3.unionto(block2, 1, 1);
+    cout << &block2 << " ";
+    //block2.unionto(block1, 1, 1);
 
     //create simple tree
     //          1

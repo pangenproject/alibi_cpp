@@ -13,9 +13,9 @@ template <class T>
 class Block {
 
 private:
-    T id;
     string sequence;
 public:
+    T id;
     int shift = 0;
     int reorder_shift = 0;
     int orient = 1;
@@ -24,6 +24,7 @@ public:
     set<T> component = {};
     Block(T id, string sequence);
     Block<T> find();
+    int getId();
     void unionto(Block other, int reverse, int flank);
 };
 
