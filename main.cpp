@@ -1,7 +1,9 @@
 #include <iostream>
 #include "Graph.h"
 #include "Graph.cpp"
-#include <queue>
+#include "Block.h"
+#include "Block.cpp"
+
 
 using namespace std;
 
@@ -10,6 +12,7 @@ using namespace std;
 int main(){
     //initialize graph
     Graph<int> graph1;
+    Block<int> block1(1, "actg");
 
     //create simple tree
     //          1
@@ -36,7 +39,9 @@ int main(){
     graph2.addVertex("Two", connectionsS2);
     graph2.addVertex("Three", connectionsS3);
 
-    cout << graph1;
+    //cout << graph1;
+
+
 
     return 0;
 }

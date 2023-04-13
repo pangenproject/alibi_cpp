@@ -9,7 +9,7 @@
 using namespace std;
 
 template <class T>
-class Graph{
+class Graph {
 
 private:
     set<T> fa; // set of feedback arcs
