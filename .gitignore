@@ -6,6 +6,7 @@ cmake-build-debug
 *.o
 *.obj
 .idea
+.DS_Store
 
 # Precompiled Headers
 *.gch
