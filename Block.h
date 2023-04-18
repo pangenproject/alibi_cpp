@@ -24,7 +24,16 @@ public:
     Block(T id, std::string sequence);
     T& find(std::map<T, Block<T>&> &blocks);
     void unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank);
+    void uniontoMidst(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank);
+
+    int orientation(std::map<T, Block<T>&> blocks);
     void setRoot(T id);
+
+    int order(std::map<T, Block<T> &> blocks);
+    void reorder(std::map<T, Block<T>&> blocks, int n);
+
+    int minimum(std::map<T, Block<T>&> blocks);
+    int maximum(std::map<T, Block<T>&> blocks);
 };
 
 

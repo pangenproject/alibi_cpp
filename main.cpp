@@ -15,11 +15,11 @@ int main(){
     Block<int> block2(2, "actg");
     Block<int> block3(3, "actg");
     std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
-    block3.unionto(block2, blocks, 1, 1);
+    block3.uniontoMidst(block2, blocks, 1, 1);
     block2.unionto(block1, blocks, 1, 1);
-
-    cout << block3.toroot; //
-    cout << block2.toroot;
+    int a = block3.find(blocks);
+    cout << block3.toroot; // 1
+    cout << block2.toroot; // 1
     //block2.unionto(block1, 1, 1);
 
     //create simple tree
