@@ -17,7 +17,6 @@ int main(){
     std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
     block3.uniontoMidst(block2, blocks, 1, 1);
     block2.unionto(block1, blocks, 1, 1);
-    int a = block3.find(blocks);
     cout << block3.toroot; // 1
     cout << block2.toroot; // 1
     //block2.unionto(block1, 1, 1);

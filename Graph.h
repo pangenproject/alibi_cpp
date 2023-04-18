@@ -5,6 +5,7 @@
 #include <iostream>
 #include <list>
 #include <set>
+#include "Block.h"
 
 using namespace std;
 
@@ -18,7 +19,12 @@ public:
     map<T, set<T>> adj_list;
     Graph();
     void addVertex(T val, set<T> edges);
-    set<T> getNeighbours(T vertex);
+    vector<T> outEdges(T vertex, std::map<T, Block<T>&> blocks, int ub);
+    vector<T> inEdges(T vertex, std::map<T, Block<T>&> blocks, int lb);
+    set<T> dfsF(T root, std::map<T, Block<T>&> blocks, int ub);
+    set<T> dfsB(T root, std::map<T, Block<T>&> blocks, int lb);
+
+    set<T> getAdjacent(T vertex);
 };
 
 #endif

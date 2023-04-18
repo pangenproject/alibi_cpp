@@ -1,6 +1,8 @@
 #include <iostream>
 #include "Graph.h"
+#include "Block.h"
 #include <string>
+#include <stack>
 
 using namespace std;
 
@@ -38,9 +40,85 @@ void Graph<T>:: addVertex(T val, set<T> edges){
 
 //get neighbours of given vertex
 template <class T>
-set<T> Graph<T>:: getNeighbours(T vertex){
+set<T> Graph<T>:: getAdjacent(T vertex){
     return adj_list[vertex];
 }
+
+template <class T>
+vector<T> Graph<T>:: outEdges(T vertex, std::map<T, Block<T>&> blocks, int ub){
+    vector<T> v;
+    int order = blocks.find(vertex)->second.order(blocks);
+    for (auto u: this->getAdjacent(vertex)){
+        int order_u = blocks.find(u)->second.order(blocks);
+        if((ub >= order_u) && (order_u > order)){
+            v.push_back(u);
+        }
+    }
+
+    return v;
+}
+
+template <class T>
+vector<T> Graph<T>::inEdges(T vertex, std::map<T, Block<T>&> blocks, int lb){
+    vector<T> v;
+    int order = blocks.find(vertex)->second.order(blocks);
+    for (auto u: this->getAdjacent(vertex)){
+        int order_u = blocks.find(u)->second.order(blocks);
+        if((lb < order_u) && (order_u < order)){
+            v.push_back(u);
+        }
+    }
+
+    return v;
+}
+
+template <class T>
+set<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
+    std::set<T> visited ;
+    std::stack<T> my_stack;
+    my_stack.push(root);
+    while (!my_stack.empty()){
+        T node = my_stack.pop();
+        if(blocks.find(node)->second.order(blocks) == ub){
+            return {};
+        }
+        if (!visited.count(node)){
+            visited.insert(node);
+            std::vector<T> v = this->outEdges(node, blocks, ub);
+            for (auto el: v){
+                if(!visited.count(el)){
+                    my_stack.push(el);
+                }
+            }
+        }
+    }
+    return visited;
+
+}
+
+template <class T>
+set<T> Graph<T>::dfsB(T root, std::map<T, Block<T>&> blocks, int lb){
+    std::set<T> visited ;
+    std::stack<T> my_stack;
+    my_stack.push(root);
+
+    while (!my_stack.empty()){
+        T node = my_stack.pop();
+
+        if (!visited.count(node)){
+            visited.insert(node);
+            std::vector<T> v = this->inEdges(node, blocks, lb);
+            for (auto el: v){
+                if(!visited.count(el)){
+                    my_stack.push(el);
+                }
+            }
+        }
+    }
+    return visited;
+
+}
+
 
 //override << operator. Display the adjacency list
 template <class T>
