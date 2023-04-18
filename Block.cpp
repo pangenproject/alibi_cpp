@@ -1,15 +1,13 @@
 #include <iostream>
-#include <algorithm>
 #include "Block.h"
 
-using namespace std;
 
 template <class T>
-Block<T>::Block(T id, string sequence){
+Block<T>::Block(T id, std::string sequence){
         this->id = id;
         this->sequence = sequence;
         this->component = {id};
-        this->toroot = (this);
+        this->toroot = id;
 }
 
 
@@ -22,30 +20,27 @@ std::set<T> getUnion(const std::set<T>& a, const std::set<T>& b)
 }
 
 template <class T>
-Block<T> Block<T>::find(){
-    Block root = *this;
-    if(this->toroot != (this)){
-        root = this->toroot->find();
-        this->toroot = &root;
+T& Block<T>::find(std::map<T, Block<T>&> &blocks){
+    T rootid = this->id;
+    if(this->toroot != rootid){
+        rootid = blocks.find(this->toroot)->second.find(blocks);
+        this->toroot = rootid;
 
     }
 
-    return root;
+    return rootid;
 
+}
+template <class T>
+void Block<T>::setRoot(T id){
+    toroot = id;
 }
 
 template <class T>
-void Block<T>::unionto(Block other, int reverse, int flank){
-    Block selfroot = this->find();
-    Block otheroot = other.find();
-    cout << " " <<  selfroot.toroot->id << "id" << otheroot.id << ";";
-    selfroot.toroot = &otheroot;
-    cout << " " <<  selfroot.toroot->id << "id" << otheroot.id << ";";
-
-
-    //otheroot.component = getUnion(otheroot.component, selfroot.component);
-    //delete selfroot.flanks;
-    //delete selfroot.component;
+void Block<T>::unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank){
+    T selfroot = this->find(blocks);
+    T otheroot = other.find(blocks);
+    blocks.find(selfroot)->second.setRoot(otheroot);
 }
 
 

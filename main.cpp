@@ -3,9 +3,8 @@
 #include "Graph.cpp"
 #include "Block.h"
 #include "Block.cpp"
+#include <map>
 
-
-using namespace std;
 
 
 
@@ -15,8 +14,12 @@ int main(){
     Block<int> block1(1, "actg");
     Block<int> block2(2, "actg");
     Block<int> block3(3, "actg");
-    block3.unionto(block2, 1, 1);
-    cout << &block2 << " ";
+    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
+    block3.unionto(block2, blocks, 1, 1);
+    block2.unionto(block1, blocks, 1, 1);
+
+    cout << block3.toroot; //
+    cout << block2.toroot;
     //block2.unionto(block1, 1, 1);
 
     //create simple tree

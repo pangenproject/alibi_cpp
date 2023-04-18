@@ -7,25 +7,24 @@
 #include <set>
 #include <string>
 
-using namespace std;
 
 template <class T>
 class Block {
 
 private:
-    string sequence;
+    std::string sequence;
 public:
     T id;
     int shift = 0;
     int reorder_shift = 0;
     int orient = 1;
-    Block<T>* toroot;
-    map<int, int> flanks = {{-1, 0}, {1,0}};
-    set<T> component = {};
-    Block(T id, string sequence);
-    Block<T> find();
-    int getId();
-    void unionto(Block other, int reverse, int flank);
+    T toroot;
+    std::map<int, int> flanks = {{-1, 0}, {1,0}};
+    std::set<T> component = {};
+    Block(T id, std::string sequence);
+    T& find(std::map<T, Block<T>&> &blocks);
+    void unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank);
+    void setRoot(T id);
 };
 
 
