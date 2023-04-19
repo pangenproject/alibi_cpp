@@ -17,7 +17,7 @@ void Graph<T>:: addVertex(T val, set<T> edges){
     //if the vertex is already created, the add the list of connections
     //to that vertex, otherwise create a new vertex and create a new set
     //of connections for the vertex
-    typename map<T, set<T>>::iterator it = adj_list.find(val);
+    typename map<T, set<T> >::iterator it = adj_list.find(val);
     if (it != adj_list.end()){
         it->second.insert(edges.begin(), edges.end());
     }
@@ -28,7 +28,7 @@ void Graph<T>:: addVertex(T val, set<T> edges){
     // for all the connections, add the vertex to their corresponding
     // connection set
     for (T elem: edges){
-        typename map<T, set<T>> :: iterator it1 = adj_list.find(elem);
+        typename map<T, set<T> > :: iterator it1 = adj_list.find(elem);
         if (it1 != adj_list.end()){
             it1->second.insert(val);
         }

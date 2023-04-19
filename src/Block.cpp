@@ -8,6 +8,9 @@ Block<T>::Block(T id, std::string sequence){
         this->sequence = sequence;
         this->component = {id};
         this->toroot = id;
+        this->shift = 0;
+        this->reorder_shift = 0;
+        this->orient = 1;
 }
 
 
@@ -20,7 +23,7 @@ std::set<T> getUnion(const std::set<T>& a, const std::set<T>& b)
 }
 
 template <class T>
-T& Block<T>::find(std::map<T, Block<T>&> &blocks){
+T Block<T>::find(std::map<T, Block<T>&> &blocks){
     T rootid = this->id;
     if(this->toroot != rootid){
         rootid = blocks.find(this->toroot)->second.find(blocks);
