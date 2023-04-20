@@ -32,6 +32,7 @@ public:
     int order(std::map<T, Block<T>&> blocks);
     void setShift(int s);
     void reorder(std::map<T, Block<T>&> blocks, int n);
+    int size(std::map<T, Block<T>&> blocks);
 
     int minimum(std::map<T, Block<T>&> blocks);
     int maximum(std::map<T, Block<T>&> blocks);

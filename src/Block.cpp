@@ -92,6 +92,15 @@ void Block<T>::reorder(std::map<T, Block<T>&> blocks, int n) {
 
 }
 
+
+template <class T>
+int Block<T>::size(std::map<T, Block<T>&> blocks) {
+    T selfroot = this->find(blocks);
+    Block & otherBlock = blocks.find(selfroot)->second;
+    return otherBlock.flanks[1] + otherBlock.flanks[-1] + 1;
+
+}
+
 template <class T>
 int Block<T>::minimum(std::map<T, Block<T>&> blocks) {
     T selfroot = this->find(blocks);

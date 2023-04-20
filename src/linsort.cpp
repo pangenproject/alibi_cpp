@@ -60,26 +60,27 @@ void addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, f
 
 //Add edge between blocks of different components
 template <class T>
-void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e, std::map<T, Block<T>&> blocks, Graph<T> G){
+void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e, Graph<T> G, std::map<T, Block<T>&> blocks){
     int reverse = 1;
     int flank = 1;
     T x = e.first.first;
     T y = e.second.first;
-    int side1 = e.second.first;
-    int side2 = e.second.second;
+
 
     if( blocks.find(x)->second.size(blocks) <  blocks.find(y)->second.size(blocks)){
         e = std::make_pair(e.second, e.first);
     }
+    int side1 = e.first.second;
+    int side2 = e.second.second;
 
-    Block b1 =  blocks.find(x)->second;
-    Block b2 =  blocks.find(y)->second;
+    Block b1 =  blocks.find(e.first.first)->second;
+    Block b2 =  blocks.find(e.second.first)->second;
 
-    if(b1.orentation(blocks)*b2.orientation(blocks) == side1*side2){
+    if(b1.orientation(blocks)*b2.orientation(blocks) == side1*side2){
         reverse = -1;
     }
 
-    if(b1.orentation(blocks)*side1 < 0){
+    if(b1.orientation(blocks)*side1 < 0){
         flank = - 1;
     }
 
