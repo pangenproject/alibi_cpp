@@ -21,8 +21,8 @@ public:
     void addVertex(T val, set<T> edges);
     vector<T> outEdges(T vertex, std::map<T, Block<T>&> blocks, int ub);
     vector<T> inEdges(T vertex, std::map<T, Block<T>&> blocks, int lb);
-    set<T> dfsF(T root, std::map<T, Block<T>&> blocks, int ub);
-    set<T> dfsB(T root, std::map<T, Block<T>&> blocks, int lb);
+    vector<T> dfsF(T root, std::map<T, Block<T>&> blocks, int ub);
+    vector<T> dfsB(T root, std::map<T, Block<T>&> blocks, int lb);
 
     set<T> getAdjacent(T vertex);
 };

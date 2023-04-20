@@ -73,7 +73,7 @@ vector<T> Graph<T>::inEdges(T vertex, std::map<T, Block<T>&> blocks, int lb){
 }
 
 template <class T>
-set<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
+vector<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
     std::set<T> visited ;
     std::stack<T> my_stack;
     my_stack.push(root);
@@ -92,12 +92,15 @@ set<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
             }
         }
     }
-    return visited;
+    vector<T> vc(visited.size());
+    copy(visited.begin(), visited.end(), vc.begin());
+
+    return vc;
 
 }
 
 template <class T>
-set<T> Graph<T>::dfsB(T root, std::map<T, Block<T>&> blocks, int lb){
+vector<T> Graph<T>::dfsB(T root, std::map<T, Block<T>&> blocks, int lb){
     std::set<T> visited ;
     std::stack<T> my_stack;
     my_stack.push(root);
@@ -115,7 +118,10 @@ set<T> Graph<T>::dfsB(T root, std::map<T, Block<T>&> blocks, int lb){
             }
         }
     }
-    return visited;
+    vector<T> vc(visited.size());
+    copy(visited.begin(), visited.end(), vc.begin());
+
+    return vc;
 
 }
 

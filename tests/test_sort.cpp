@@ -16,14 +16,10 @@ BOOST_AUTO_TEST_CASE(sort_blocks) {
     std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
 
     block3.unionto(block1, blocks, 1, 1);
-
-    std::cout << block1.order(blocks) << "block1 order \n";
-    std::cout << block3.order(blocks) << "block3 order \n";
     block1.unionto(block2, blocks, 1, 1);
-    std::cout << block1.order(blocks) << "block1 order \n";
-    std::cout << block2.order(blocks) << "block2 order \n";
-    std::cout << block3.order(blocks) << "block3 order \n";
-    std::vector<int> v = reorder(R_f, R_b, blocks);
 
-
+    std::vector<int> v = reorder(R_f, R_f, blocks);
+    std::vector<int> expected = {1, 2, 3, 1, 2, 3};
+    BOOST_CHECK_EQUAL_COLLECTIONS(v.begin(), v.end(),
+                                  expected.begin(), expected.end());
 }
