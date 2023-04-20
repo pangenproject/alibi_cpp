@@ -38,8 +38,8 @@ template <class T>
 void addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, float w, Graph<T> G, std::map<T, Block<T>&> blocks){
     T x = e.first.first;
     T y = e.second.first;
-    int lb = blocks.find(x)->second.order(blocks);
-    int ub = blocks.find(y)->second.order(blocks);
+    int lb = blocks.find(y)->second.order(blocks);
+    int ub = blocks.find(x)->second.order(blocks);
     if(lb == ub){
         G.fa.insert(e); //modyfikacja dla krawedzi
     } else if (lb < ub) {

@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_add_edges_within_component) {
     std::pair<std::pair<int, int>, std::pair<int, int>> v  = std::make_pair(first, second);
     addEdgeWithinComponent(v, 1, graph1, blocks);
 
-    std::vector<int> orders = {b1.order(blocks), b4.order(blocks), b3.order(blocks), b2.order(blocks), b5.order(blocks)};
+    std::vector<int> orders = {b1.order(blocks), b4.order(blocks), b2.order(blocks), b5.order(blocks), b3.order(blocks)};
 
     std::vector<int> expected = {0, 1, 2, 3, 4};
     BOOST_CHECK_EQUAL_COLLECTIONS(orders.begin(), orders.end(),
