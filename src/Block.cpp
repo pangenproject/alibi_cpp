@@ -27,6 +27,12 @@ T Block<T>::find(std::map<T, Block<T>&> &blocks){
     T rootid = this->id;
     if(this->toroot != rootid){
         rootid = blocks.find(this->toroot)->second.find(blocks);
+        this->orient *= blocks.find(toroot)->second.orient;
+
+        this->shift = this->shift* blocks.find(toroot)->second.orient+ blocks.find(toroot)->second.shift;
+        this->reorder_shift *= blocks.find(toroot)->second.orient;
+
+
         this->toroot = rootid;
 
     }
@@ -40,6 +46,11 @@ void Block<T>::setRoot(T id){
 }
 
 template <class T>
+void Block<T>::setShift(int s){
+    shift = s;
+}
+
+template <class T>
 void Block<T>::unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank){
     T selfid = this->find(blocks);
     T otherid = other.find(blocks);
@@ -47,9 +58,10 @@ void Block<T>::unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, 
     Block & otheroot = blocks.find(otherid)->second;
 
     selfroot.orient = reverse;
-    selfroot.reorder_shift *= reverse;
+    selfroot.reorder_shift *= reverse; //
 
-    selfroot.shift = flank*(otheroot.flanks[flank]+selfroot.flanks[-reverse*flank]+1);
+    selfroot.setShift(flank*(otheroot.flanks[flank]+selfroot.flanks[-reverse*flank]+1)); //
+
     otheroot.flanks[flank] += selfroot.flanks[-1]+selfroot.flanks[1]+1;
     selfroot.setRoot(otherid);
 

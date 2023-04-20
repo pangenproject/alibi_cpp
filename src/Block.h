@@ -29,7 +29,8 @@ public:
     int orientation(std::map<T, Block<T>&> blocks);
     void setRoot(T id);
 
-    int order(std::map<T, Block<T> &> blocks);
+    int order(std::map<T, Block<T>&> blocks);
+    void setShift(int s);
     void reorder(std::map<T, Block<T>&> blocks, int n);
 
     int minimum(std::map<T, Block<T>&> blocks);

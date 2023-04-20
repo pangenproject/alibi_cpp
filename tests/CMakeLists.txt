@@ -15,7 +15,7 @@ cmake_minimum_required(VERSION 3.25)
 if(Boost_FOUND)
     message(${Boost_INCLUDE_DIRS})
     include_directories(${Boost_INCLUDE_DIRS})
-    add_executable (Boost_Tests_run test_block.cpp main.cpp test_graph.cpp)
+    add_executable (Boost_Tests_run main.cpp test_graph.cpp test_block.cpp test_sort.cpp)
     target_compile_definitions(Boost_Tests_run PRIVATE "BOOST_TEST_DYN_LINK=1")
 
     target_link_libraries(Boost_Tests_run ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})

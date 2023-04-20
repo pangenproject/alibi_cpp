@@ -1,4 +1,3 @@
-#include "../src/Block.h"
 #include "../src/Block.cpp"
 #include <map>
 
@@ -45,6 +44,22 @@ BOOST_AUTO_TEST_CASE(block_union_mid_to_three_blocks) {
     block2.unionto(block1, blocks, 1, 1);
     block3.uniontoMidst(block1, blocks, 1,1);
 
-    BOOST_TEST(block1.order(blocks) < block3.order(blocks));
-    BOOST_TEST(block3.order(blocks) < block2.order(blocks));
+    BOOST_TEST(block1.order(blocks) == 0);
+    BOOST_TEST(block3.order(blocks) == 1);
+    BOOST_TEST(block2.order(blocks) == 2);
+}
+
+BOOST_AUTO_TEST_CASE(block_union_two_to_three_blocks) {
+    Block<int> block1(1, "actg");
+    Block<int> block2(2, "actg");
+    Block<int> block3(3, "actg");
+    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
+
+    block3.unionto(block1, blocks, 1, 1);
+    block1.unionto(block2, blocks, 1, 1);
+
+
+    BOOST_TEST(block1.order(blocks) == 1);
+    BOOST_TEST(block3.order(blocks) == 2);
+    BOOST_TEST(block2.order(blocks) == 0);
 }
