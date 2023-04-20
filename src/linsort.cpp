@@ -87,8 +87,10 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
     if(flank == 1 && b1.order(blocks) == b1.maximum(blocks)){
         b2.unionto(b1, blocks, reverse, flank);
     } else if (flank == -1 && b1.order(blocks) == b1.minimum(blocks)){
+
         b2.unionto(b1, blocks, reverse, flank);
     } else {
+
         int c_end = 0;
         int c_mnist = 0;
         if(flank == 1){
@@ -102,7 +104,7 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
 
         if(c_end < c_mnist){
             b2.unionto(b1, blocks, reverse, flank);
-        } else{
+        } else {
             b2.uniontoMidst(b1, blocks, reverse, flank);
         }
     }

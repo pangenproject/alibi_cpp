@@ -129,17 +129,17 @@ void Block<T>::uniontoMidst(Block other, std::map<T, Block<T>&> blocks, int reve
     Block & otheroot = blocks.find(otherid)->second;
 
     int n = otheroot.order(blocks);
-    int k = selfroot.component.size();
+    int k = selfroot.size(blocks);
 
-    if(flank == 1){
-        for(T id: otheroot.component){
+    if(flank == 1) {
+        for(T id: otheroot.component) {
 
             if(blocks.find(id)->second.order(blocks) > n){
                 blocks.find(id)->second.reorder_shift += k;
             }
         }
     } else {
-        for(T id: otheroot.component){
+        for(T id: otheroot.component) {
             if(blocks.find(id)->second.order(blocks) < n){
                 blocks.find(id)->second.reorder_shift -= k;
             }

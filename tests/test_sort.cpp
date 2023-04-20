@@ -99,3 +99,42 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents) {
                                   expected.begin(), expected.end());
 }
 
+
+BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
+    Block<int> b1(1, "ac");
+    Block<int> b2(2, "ggt");
+    Block<int> b3(3, "ctt");
+    Block<int> b4(4, "aat");
+    Block<int> b5(5, "gat");
+    Block<int> b6(5, "aa");
+
+    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}, {6, b6}};
+
+    b2.unionto(b1, blocks, 1, 1);
+    b3.unionto(b2, blocks, 1, 1);
+    b4.unionto(b3, blocks, 1, 1);
+    b5.unionto(b4, blocks, 1, 1);
+
+    Graph<int> graph1;
+
+    graph1.addVertex(1, {2});
+    graph1.addVertex(2, {3});
+    graph1.addVertex(3, {4});
+    graph1.addVertex(4, {5});
+    graph1.addVertex(6, {});
+
+    std::pair first = std::make_pair(1, 1);
+    std::pair second = std::make_pair(6,-1);
+
+    std::pair<std::pair<int, int>, std::pair<int, int>> v  = std::make_pair(first, second);
+
+    addEdgeBetweenComponents(v, graph1, blocks);
+
+
+    std::vector<int> orders = {b1.order(blocks), b6.order(blocks), b2.order(blocks), b3.order(blocks), b4.order(blocks), b5.order(blocks)};
+
+
+    std::vector<int> expected = {0, 1, 2, 3, 4, 5};
+    BOOST_CHECK_EQUAL_COLLECTIONS(orders.begin(), orders.end(),
+                                  expected.begin(), expected.end());
+}
