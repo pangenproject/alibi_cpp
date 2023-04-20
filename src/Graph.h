@@ -13,9 +13,10 @@ template <class T>
 class Graph {
 
 private:
-    set<T> fa; // set of feedback arcs
-    set<T> rj; //set of reversing joins
+
 public:
+    set<std::pair<std::pair<T, int>, std::pair<T, int>>> fa; // set of feedback arcs
+    set<std::pair<std::pair<T, int>, std::pair<T, int>>> rj; //set of reversing joins
     map<T, set<T> > adj_list;
     Graph();
     void addVertex(T val, set<T> edges);

@@ -78,7 +78,9 @@ vector<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
     std::stack<T> my_stack;
     my_stack.push(root);
     while (!my_stack.empty()){
-        T node = my_stack.pop();
+
+        T node = my_stack.top();
+        my_stack.pop();
         if(blocks.find(node)->second.order(blocks) == ub){
             return {};
         }
@@ -106,7 +108,8 @@ vector<T> Graph<T>::dfsB(T root, std::map<T, Block<T>&> blocks, int lb){
     my_stack.push(root);
 
     while (!my_stack.empty()){
-        T node = my_stack.pop();
+        T node = my_stack.top();
+        my_stack.pop();
 
         if (!visited.count(node)){
             visited.insert(node);
