@@ -26,7 +26,9 @@ BOOST_AUTO_TEST_CASE(block_union_to_for_tree_blocks) {
 BOOST_AUTO_TEST_CASE(block_union_to_two_blocks) {
     Block<int> block1(1, "actg");
     Block<int> block2(2, "actg");
-    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}};
+    std::map<int, Block<int>&> blocks;
+    blocks.insert({1, block1});
+    blocks.insert({2, block2});
     int flank = 1;
     int reverse = -1;
     block2.unionto(block1, blocks, reverse, flank);
