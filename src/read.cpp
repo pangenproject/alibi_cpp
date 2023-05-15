@@ -49,7 +49,7 @@ std::vector<std::string> split(std::string line, char sep){
 
 
 template <class T>
-void weight_gfa(std::vector<std::string> line,  std::map<std::pair<std::pair<T, char>, std::pair<T, char>>, size_t> s) {
+void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result) {
     for (int i = 0; i < line.size() - 1; i++) {
         std::pair<int, int> v1 = {std::stoi(line[i].substr(0, line[i].size() - 1)) - 1, strand(line[i].back())};
         std::pair<int, int> v2 = {std::stoi(line[i+1].substr(0, line[i+1].size() - 1)) - 1, strand(line[i+1].back())};
@@ -60,10 +60,10 @@ void weight_gfa(std::vector<std::string> line,  std::map<std::pair<std::pair<T, 
         std::cout << r.first.first << r.first.second << "\n";
         std::cout << r.first.first << r.first.second << "\n";
 
-        if(s.find(r) == s.end()){
-            s[r] = 0;
+        if(result.find(r) == result.end()){
+            result.insert({r, 1});
         } else{
-            s[r] += 1;
+            result[r] += 1;
         }
 
     }
@@ -73,7 +73,7 @@ template <class T, class T2>
 void read_gfa(std::string gfa_file) {
     std::map<T, Block<T>&> blocks;
     std::ifstream f(gfa_file);
-    std::map<std::pair<std::pair<int, char>, std::pair<int, char>>, size_t> s;
+    std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, size_t> s;
 
 
     if (!f.is_open()) {
@@ -93,7 +93,7 @@ void read_gfa(std::string gfa_file) {
             } else if (line.substr(0, 1) == "P") {
                 std::vector<std::string> r =  split(line, '\0');
                 std::vector<std::string> line_split = split(r[2], ',');
-                weight_gfa(line_split, s);
+                //std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, size_t> s = weight_gfa(line_split);
             }
         }
         f.close();
