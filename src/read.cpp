@@ -69,11 +69,21 @@ void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, i
     }
 }
 
-template <class T, class T2>
-void read_gfa(std::string gfa_file) {
-    std::map<T, Block<T>&> blocks;
+// Komparator do sortowania po wartościach
+template<typename K, typename V>
+struct ValueComparator
+{
+    bool operator()(const std::pair<K, V>& a, const std::pair<K, V>& b)
+    {
+        return a.second > b.second;
+    }
+};
+
+template <class T>
+std::pair<std::map<T, Block<T>>,  std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> read_gfa(std::string gfa_file) {
+    std::map<int, Block<T>> blocks;
     std::ifstream f(gfa_file);
-    std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, size_t> s;
+    std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> s;
 
 
     if (!f.is_open()) {
@@ -82,26 +92,36 @@ void read_gfa(std::string gfa_file) {
     try {
 
         std::string line;
-        int i = 0;
 
         while (std::getline(f, line)) {
             if (line.substr(0, 1) == "S") {
-                std::vector<std::string> r =  split(line, '\0');
-                Block<T> block(i, r[2]);
-                blocks.insert({i, block});
-                i++;
+
+                std::vector<std::string> r =  split(line, '\t');
+                Block<int> block(std::stoi(r[1]), r[2]);
+                blocks.insert({std::stoi(r[1]), block});
+
             } else if (line.substr(0, 1) == "P") {
-                std::vector<std::string> r =  split(line, '\0');
+                std::vector<std::string> r =  split(line, '\t');
                 std::vector<std::string> line_split = split(r[2], ',');
-                //std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, size_t> s = weight_gfa(line_split);
+                weight_gfa(line_split, s);
             }
+            s;
         }
         f.close();
     } catch (std::exception const& e) {
         std::cerr << "Wystąpił błąd: " << e.what() << std::endl;
     }
-    //std::sort(edges.begin(), edges.end(), [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
-        //return a.second > b.second;
-    //});
+    std::vector<std::pair<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> vector(s.begin(), s.end());
+    std::sort(vector.begin(), vector.end(), ValueComparator<std::pair<std::pair<T, int>, std::pair<T, int>>, int>());
+
+
+    std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> sortedMap;
+
+    for (const auto& pair : vector)
+    {
+        sortedMap.insert({pair.first, pair.second});
+    }
+
+    return {blocks, sortedMap};
 }
 
