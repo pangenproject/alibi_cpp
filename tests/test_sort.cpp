@@ -99,14 +99,13 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents) {
                                   expected.begin(), expected.end());
 }
 
-
 BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
     Block<int> b1(1, "ac");
     Block<int> b2(2, "ggt");
     Block<int> b3(3, "ctt");
     Block<int> b4(4, "aat");
     Block<int> b5(5, "gat");
-    Block<int> b6(5, "aa");
+    Block<int> b6(6, "aa");
 
     std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}, {6, b6}};
 
@@ -133,8 +132,12 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
 
     std::vector<int> orders = {b1.order(blocks), b6.order(blocks), b2.order(blocks), b3.order(blocks), b4.order(blocks), b5.order(blocks)};
 
-
     std::vector<int> expected = {0, 1, 2, 3, 4, 5};
-    BOOST_CHECK_EQUAL_COLLECTIONS(orders.begin(), orders.end(),
-                                  expected.begin(), expected.end());
+    BOOST_TEST(b1.order(blocks) == 0);
+    BOOST_TEST(b6.order(blocks) == 1);
+    BOOST_TEST(b2.order(blocks) == 2);
+    BOOST_TEST(b3.order(blocks) == 3);
+    BOOST_TEST(b4.order(blocks) == 4);
+    BOOST_TEST(b5.order(blocks) == 5);
+
 }

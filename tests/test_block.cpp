@@ -51,6 +51,34 @@ BOOST_AUTO_TEST_CASE(block_union_mid_to_three_blocks) {
     BOOST_TEST(block2.order(blocks) == 2);
 }
 
+BOOST_AUTO_TEST_CASE(block_union_mid_to_six_blocks) {
+    Block<int> block1(1, "ac");
+    Block<int> block2(2, "ggt");
+    Block<int> block3(3, "ctt");
+    Block<int> block4(4, "aat");
+    Block<int> block5(5, "gat");
+    Block<int> block6(6, "aa");
+
+
+    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}, {4, block4}, {5, block5},  {6, block6}};
+
+
+    block2.unionto(block1, blocks, 1, 1);
+    block3.unionto(block2, blocks, 1, 1);
+    block4.unionto(block3, blocks, 1, 1);
+    block5.unionto(block4, blocks,1, 1);
+    block6.uniontoMidst(block1, blocks, 1, 1);
+
+
+
+    BOOST_TEST(block1.order(blocks) == 0);
+    BOOST_TEST(block6.order(blocks) == 1);
+    BOOST_TEST(block2.order(blocks) == 2);
+    BOOST_TEST(block3.order(blocks) == 3);
+    BOOST_TEST(block4.order(blocks) == 4);
+    BOOST_TEST(block5.order(blocks) == 5);
+}
+
 BOOST_AUTO_TEST_CASE(block_union_two_to_three_blocks) {
     Block<int> block1(1, "actg");
     Block<int> block2(2, "actg");
