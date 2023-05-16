@@ -141,3 +141,4 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
     BOOST_TEST(b5.order(blocks) == 5);
 
 }
+

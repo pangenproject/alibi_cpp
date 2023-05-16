@@ -4,6 +4,7 @@
 #include "Block.cpp"
 #include "Graph.h"
 #include "Graph.cpp"
+#include "read.cpp"
 
 
 template <class T>
@@ -109,4 +110,28 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
         }
     }
 
+}
+
+void linSort(std::string filename){
+    std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa<int>(filename);
+
+    Graph<string> G;
+    std::map<int, Block<int>&> blocks = result.first;
+    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> edges = result.second;
+
+    for (auto el: edges) {
+        int v1 = el.first.first.first;
+        int v2 = el.first.second.first;
+
+        int o1 = el.first.first.second;
+        int o2 = el.first.second.second;
+
+        if(blocks.find(v1)->second.find(blocks) == blocks.find(v2)->second.find(blocks) ){
+
+            if(blocks.find(v1)->second.orientation(blocks)* blocks.find(v2)->second.orientation(blocks) == o1*o2){
+
+            }
+
+        }
+    }
 }

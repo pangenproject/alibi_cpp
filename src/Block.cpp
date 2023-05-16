@@ -32,7 +32,6 @@ T Block<T>::find(std::map<T, Block<T>&> &blocks){
         this->shift = this->shift* blocks.find(toroot)->second.orient+ blocks.find(toroot)->second.shift;
         this->reorder_shift *= blocks.find(toroot)->second.orient;
 
-
         this->toroot = rootid;
 
     }

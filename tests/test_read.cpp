@@ -1,4 +1,4 @@
-#include "../src/read.cpp"
+#include "../src/read.h"
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/unit_test.hpp>
 #include <boost/static_assert.hpp>
@@ -7,7 +7,7 @@
 BOOST_AUTO_TEST_CASE(split_string) {
     std::vector<std::string> expected = {"L", "11", "+", "12", "-", "4M"};
 
-    std::vector<std::string> returned =  split("L\t11\t+\t12\t-\t4M", '\t');
+    std::vector<std::string> returned =  split_s("L\t11\t+\t12\t-\t4M", '\t');
 
     BOOST_CHECK_EQUAL_COLLECTIONS(expected.begin(), expected.end(), returned.begin(), returned.end());
 
@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(split_string) {
 
 BOOST_AUTO_TEST_CASE(split_string_by_comma) {
     std::vector<std::string> expected = {"11+","12-","13+"};
-    std::vector<std::string> returned =  split("11+,12-,13+", ',');
+    std::vector<std::string> returned =  split_s("11+,12-,13+", ',');
 
     BOOST_CHECK_EQUAL_COLLECTIONS(expected.begin(), expected.end(), returned.begin(), returned.end());
 
@@ -55,8 +55,8 @@ BOOST_AUTO_TEST_CASE(weight_gfa_read){
     BOOST_TEST(expected.find({v3, v4})->first.first.second == output.find({v3, v4})->first.first.second);
 }
 
-BOOST_AUTO_TEST_CASE(gfa_read) {
-    std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa<int>("../data/test.gfa");
-    result.first;
+BOOST_AUTO_TEST_CASE(gfa_readcx) {
+    std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa<int>("../data/test.gfa");
+
 }
 

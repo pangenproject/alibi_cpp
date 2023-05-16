@@ -33,7 +33,7 @@ std::pair<std::pair<T, int>, std::pair<T, int>> connect_gfa_nodes(std::pair<T, i
     return e;
 }
 
-std::vector<std::string> split(std::string line, char sep){
+std::vector<std::string> split_s(std::string line, char sep){
     std::vector<std::string> result;
 
     std::stringstream ss(line);
@@ -80,8 +80,8 @@ struct ValueComparator
 };
 
 template <class T>
-std::pair<std::map<T, Block<T>>,  std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> read_gfa(std::string gfa_file) {
-    std::map<int, Block<T>> blocks;
+std::pair<std::map<T, Block<T>&>,  std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> read_gfa(std::string gfa_file) {
+    std::map<int, Block<T>&> blocks;
     std::ifstream f(gfa_file);
     std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> s;
 
@@ -96,16 +96,16 @@ std::pair<std::map<T, Block<T>>,  std::map<std::pair<std::pair<T, int>, std::pai
         while (std::getline(f, line)) {
             if (line.substr(0, 1) == "S") {
 
-                std::vector<std::string> r =  split(line, '\t');
-                Block<int> block(std::stoi(r[1]), r[2]);
+                std::vector<std::string> r =  split_s(line, '\t');
+                Block<T> block (std::stoi(r[1]), r[2]);
                 blocks.insert({std::stoi(r[1]), block});
 
+
             } else if (line.substr(0, 1) == "P") {
-                std::vector<std::string> r =  split(line, '\t');
-                std::vector<std::string> line_split = split(r[2], ',');
+                std::vector<std::string> r =  split_s(line, '\t');
+                std::vector<std::string> line_split = split_s(r[2], ',');
                 weight_gfa(line_split, s);
             }
-            s;
         }
         f.close();
     } catch (std::exception const& e) {
