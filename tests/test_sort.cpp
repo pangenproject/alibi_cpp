@@ -164,3 +164,64 @@ BOOST_AUTO_TEST_CASE(linsort_main_function) {
 
 }
 
+BOOST_AUTO_TEST_CASE(linsort_rj) {
+    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test_rj.gfa");
+
+    std::map<int, Block<int>> blocks = result.second;
+
+    std::map<int, Block<int>&> blocks_ref;
+    std::cout << result.first;
+
+    // Przepisanie mapy obiektów na mapę referencji
+    for (auto& pair : blocks) {
+        blocks_ref.insert({pair.first, std::ref(pair.second)});
+    }
+
+    BOOST_TEST(blocks.find(1)->second.order(blocks_ref) == 0);
+    BOOST_TEST(blocks.find(2)->second.order(blocks_ref) == 1);
+    BOOST_TEST(blocks.find(1)->second.orientation(blocks_ref)== 1);
+    BOOST_TEST(blocks.find(2)->second.orientation(blocks_ref)== 1);
+
+}
+
+
+BOOST_AUTO_TEST_CASE(linsort_fa) {
+    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test_rj.gfa");
+
+    std::map<int, Block<int>> blocks = result.second;
+
+    std::map<int, Block<int>&> blocks_ref;
+    std::cout << result.first;
+
+    // Przepisanie mapy obiektów na mapę referencji
+    for (auto& pair : blocks) {
+        blocks_ref.insert({pair.first, std::ref(pair.second)});
+    }
+
+    BOOST_TEST(blocks.find(1)->second.order(blocks_ref) == 0);
+    BOOST_TEST(blocks.find(2)->second.order(blocks_ref) == 1);
+    BOOST_TEST(blocks.find(1)->second.orientation(blocks_ref)== 1);
+    BOOST_TEST(blocks.find(2)->second.orientation(blocks_ref)== 1);
+
+}
+
+BOOST_AUTO_TEST_CASE(linsort_main_function_for_article_gfa) {
+    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test_article.gfa");
+
+    std::map<int, Block<int>> blocks = result.second;
+
+    std::map<int, Block<int>&> blocks_ref;
+
+    // Przepisanie mapy obiektów na mapę referencji
+    for (auto& pair : blocks) {
+        blocks_ref.insert({pair.first, std::ref(pair.second)});
+    }
+
+    std::cout << result.first;
+
+    for( int i  = 1; i < 9; i++) {
+        std::cout << (blocks.find(i)->second.order(blocks_ref)) << " " << (blocks.find(i)->second.orientation(blocks_ref))  << "\n";
+    }
+
+
+}

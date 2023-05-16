@@ -53,6 +53,7 @@ void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, i
     for (int i = 0; i < line.size() - 1; i++) {
         std::pair<int, int> v1 = {std::stoi(line[i].substr(0, line[i].size() - 1)), strand(line[i].back())};
         std::pair<int, int> v2 = {std::stoi(line[i+1].substr(0, line[i+1].size() - 1)), strand(line[i+1].back())};
+        std::cout << "v1"<< v1.first << "v1" << v1.second << "v2"<< v2.first << "v2" << v2.second << "\n";
 
         std::pair<std::pair<T, int>, std::pair<T, int>> r = connect_gfa_nodes(v1, v2);
 

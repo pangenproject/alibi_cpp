@@ -36,13 +36,13 @@ void reorder(std::vector<T> R_f, std::vector<T> R_b,  std::map<T, Block<T>&> blo
 }
 
 template <class T>
-void addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, float w, Graph<T> G, std::map<T, Block<T>&> blocks){
+bool addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, float w, Graph<T> G, std::map<T, Block<T>&> blocks){
     T x = e.first.first;
     T y = e.second.first;
     int lb = blocks.find(y)->second.order(blocks);
     int ub = blocks.find(x)->second.order(blocks);
     if(lb == ub){
-        G.fa.insert(e); //modyfikacja dla krawedzi
+        return false;
     } else if (lb < ub) {
         std::vector<T> R_f = G.dfsF(y, blocks, ub);
         if (!R_f.empty()){
@@ -50,12 +50,13 @@ void addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, f
             reorder(R_f, R_b, blocks);
             G.addVertex(x, {y});
         } else {
-            G.fa.insert(e);
+            return false;
         }
 
     } else {
         G.addVertex(x, {y});
     }
+    return true;
 
 }
 
@@ -138,10 +139,14 @@ std::pair<Graph<int>, std::map<int, Block<int>>> linSort(std::string filename){
             if(blocks.find(v1)->second.orientation(blocks_ref) * blocks.find(v2)->second.orientation(blocks_ref) == o1*o2){
                 G.rj.insert(el.first);
             } else if (blocks.find(v1)->second.orientation(blocks_ref) * o1 > 0){
-                addEdgeWithinComponent(el.first, el.second, G, blocks_ref);
+                if (!addEdgeWithinComponent(el.first, el.second, G, blocks_ref)){
+                    G.fa.insert(el.first);
+                }
             } else {
                 std::pair<std::pair<int, int>, std::pair<int, int>> e = std::make_pair(el.first.second, el.first.first);
-                addEdgeWithinComponent(e, el.second, G, blocks_ref);
+                if (!addEdgeWithinComponent(e, el.second, G, blocks_ref)){
+                    G.fa.insert(el.first);
+                }
             }
 
         } else {
