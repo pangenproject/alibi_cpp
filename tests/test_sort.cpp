@@ -142,3 +142,11 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
 
 }
 
+BOOST_AUTO_TEST_CASE(linsort_main_function) {
+    std::pair<Graph<int>, std::map<int, Block<int>&>> result = linSort("../data/test.gfa");
+
+    std::cout << result.first;
+
+    BOOST_TEST(6 == 5);
+}
+

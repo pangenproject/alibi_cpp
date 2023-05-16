@@ -16,7 +16,6 @@ template <class T>
 void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result);
 
 
-template <class T>
-std::pair<std::map<T, Block<T>&>,  std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> read_gfa(std::string gfa_file);
+std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> read_gfa(std::string gfa_file);
 
 #endif //TESTS_READ_H

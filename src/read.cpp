@@ -8,7 +8,7 @@
 #include "Block.h"
 #include <utility>
 #include <map>
-
+#include <functional>
 
 int strand(char x) {
     if (x == '+') return 1;
@@ -51,14 +51,11 @@ std::vector<std::string> split_s(std::string line, char sep){
 template <class T>
 void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result) {
     for (int i = 0; i < line.size() - 1; i++) {
-        std::pair<int, int> v1 = {std::stoi(line[i].substr(0, line[i].size() - 1)) - 1, strand(line[i].back())};
-        std::pair<int, int> v2 = {std::stoi(line[i+1].substr(0, line[i+1].size() - 1)) - 1, strand(line[i+1].back())};
-        std::cout << v1.first << v1.second;
-        std::cout << v2.first << v2.second;
+        std::pair<int, int> v1 = {std::stoi(line[i].substr(0, line[i].size() - 1)), strand(line[i].back())};
+        std::pair<int, int> v2 = {std::stoi(line[i+1].substr(0, line[i+1].size() - 1)), strand(line[i+1].back())};
 
         std::pair<std::pair<T, int>, std::pair<T, int>> r = connect_gfa_nodes(v1, v2);
-        std::cout << r.first.first << r.first.second << "\n";
-        std::cout << r.first.first << r.first.second << "\n";
+
 
         if(result.find(r) == result.end()){
             result.insert({r, 1});
@@ -79,11 +76,10 @@ struct ValueComparator
     }
 };
 
-template <class T>
-std::pair<std::map<T, Block<T>&>,  std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> read_gfa(std::string gfa_file) {
-    std::map<int, Block<T>&> blocks;
+std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> read_gfa(std::string gfa_file) {
+    std::map<int, Block<int>> blocks;
     std::ifstream f(gfa_file);
-    std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> s;
+    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> s;
 
 
     if (!f.is_open()) {
@@ -97,7 +93,7 @@ std::pair<std::map<T, Block<T>&>,  std::map<std::pair<std::pair<T, int>, std::pa
             if (line.substr(0, 1) == "S") {
 
                 std::vector<std::string> r =  split_s(line, '\t');
-                Block<T> block (std::stoi(r[1]), r[2]);
+                Block<int> block(std::stoi(r[1]), r[2]);
                 blocks.insert({std::stoi(r[1]), block});
 
 
@@ -111,11 +107,12 @@ std::pair<std::map<T, Block<T>&>,  std::map<std::pair<std::pair<T, int>, std::pa
     } catch (std::exception const& e) {
         std::cerr << "Wystąpił błąd: " << e.what() << std::endl;
     }
-    std::vector<std::pair<std::pair<std::pair<T, int>, std::pair<T, int>>, int>> vector(s.begin(), s.end());
-    std::sort(vector.begin(), vector.end(), ValueComparator<std::pair<std::pair<T, int>, std::pair<T, int>>, int>());
+    std::vector<std::pair<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> vector(s.begin(), s.end());
+    std::sort(vector.begin(), vector.end(), ValueComparator<std::pair<std::pair<int, int>, std::pair<int, int>>, int>());
 
 
-    std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> sortedMap;
+
+    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> sortedMap;
 
     for (const auto& pair : vector)
     {

@@ -5,7 +5,7 @@
 #include "Graph.h"
 #include "Graph.cpp"
 #include "read.cpp"
-
+#include <functional>
 
 template <class T>
 void reorder(std::vector<T> R_f, std::vector<T> R_b,  std::map<T, Block<T>&> blocks){
@@ -112,12 +112,19 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
 
 }
 
-void linSort(std::string filename){
-    std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa<int>(filename);
+std::pair<Graph<int>, std::map<int, Block<int>&>> linSort(std::string filename){
+    std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa(filename);
 
-    Graph<string> G;
-    std::map<int, Block<int>&> blocks = result.first;
+    Graph<int> G;
+    std::map<int, Block<int>> blocks = result.first;
     std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> edges = result.second;
+
+    std::map<int, Block<int>&> blocks_ref;
+
+    // Przepisanie mapy obiektów na mapę referencji
+    for (auto& pair : blocks) {
+        blocks_ref.insert({pair.first, std::ref(pair.second)});
+    }
 
     for (auto el: edges) {
         int v1 = el.first.first.first;
@@ -126,12 +133,22 @@ void linSort(std::string filename){
         int o1 = el.first.first.second;
         int o2 = el.first.second.second;
 
-        if(blocks.find(v1)->second.find(blocks) == blocks.find(v2)->second.find(blocks) ){
+        if(blocks.find(v1)->second.find(blocks_ref) == blocks.find(v2)->second.find(blocks_ref) ){
 
-            if(blocks.find(v1)->second.orientation(blocks)* blocks.find(v2)->second.orientation(blocks) == o1*o2){
-
+            if(blocks.find(v1)->second.orientation(blocks_ref) * blocks.find(v2)->second.orientation(blocks_ref) == o1*o2){
+                G.rj.insert(el.first);
+            } else if (blocks.find(v1)->second.orientation(blocks_ref) * o1 > 0){
+                addEdgeWithinComponent(el.first, el.second, G, blocks_ref);
+            } else {
+                std::pair<std::pair<int, int>, std::pair<int, int>> e = std::make_pair(el.first.second, el.first.first);
+                addEdgeWithinComponent(e, el.second, G, blocks_ref);
             }
 
+        } else {
+            addEdgeBetweenComponents(el.first, G, blocks_ref);
+            G.addVertex(v1, {v2});
         }
     }
+
+    return {G, blocks_ref};
 }

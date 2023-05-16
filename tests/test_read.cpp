@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(weight_gfa_read){
 }
 
 BOOST_AUTO_TEST_CASE(gfa_readcx) {
-    std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa<int>("../data/test.gfa");
+    std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa("../data/test.gfa");
 
 }
 
