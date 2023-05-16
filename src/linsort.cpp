@@ -112,7 +112,7 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
 
 }
 
-std::pair<Graph<int>, std::map<int, Block<int>&>> linSort(std::string filename){
+std::pair<Graph<int>, std::map<int, Block<int>>> linSort(std::string filename){
     std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa(filename);
 
     Graph<int> G;
@@ -150,5 +150,5 @@ std::pair<Graph<int>, std::map<int, Block<int>&>> linSort(std::string filename){
         }
     }
 
-    return {G, blocks_ref};
+    return {G, blocks};
 }

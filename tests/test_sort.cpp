@@ -143,10 +143,24 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
 }
 
 BOOST_AUTO_TEST_CASE(linsort_main_function) {
-    std::pair<Graph<int>, std::map<int, Block<int>&>> result = linSort("../data/test.gfa");
+    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test.gfa");
 
-    std::cout << result.first;
+    std::map<int, Block<int>> blocks = result.second;
 
-    BOOST_TEST(6 == 5);
+    std::map<int, Block<int>&> blocks_ref;
+
+    // Przepisanie mapy obiektów na mapę referencji
+    for (auto& pair : blocks) {
+        blocks_ref.insert({pair.first, std::ref(pair.second)});
+    }
+
+    BOOST_TEST(blocks.find(11)->second.order(blocks_ref) == 0);
+    BOOST_TEST(blocks.find(12)->second.order(blocks_ref) == 1);
+    BOOST_TEST(blocks.find(13)->second.order(blocks_ref) == 2);
+    BOOST_TEST(blocks.find(11)->second.orientation(blocks_ref)== 1);
+    BOOST_TEST(blocks.find(12)->second.orientation(blocks_ref)== -1);
+    BOOST_TEST(blocks.find(13)->second.orientation(blocks_ref)== 1);
+
+
 }
 
