@@ -4,4 +4,16 @@ project(alibi_cpp)
 set(CMAKE_CXX_STANDARD 17)
 
 
-add_executable(alibi_cpp main.cpp src/read.cpp src/read.h src/linsort.cpp src/Graph.cpp src/Graph.h src/Block.cpp src/Block.h )
+project(alibi_cpp)
+
+# Dodaj plik main.cpp jako główny plik źródłowy
+add_executable(NazwaProjektu main.cpp)
+
+# Dodaj moduły Block.h i Block.cpp
+add_library(Block src/Block.cpp src/Block.h)
+add_library(Graph src/Graph.cpp src/Graph.h)
+add_library(linsort src/linsort.cpp src/linsort.h)
+add_library(read src/read.cpp src/read.h)
+
+# Podłącz moduły do głównego pliku źródłowego
+target_link_libraries(alibicpp Block Graph linsort read)
