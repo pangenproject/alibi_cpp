@@ -15,6 +15,23 @@ int strand(char x) {
     else return -1;
 }
 
+// A hash function used to hash a pair of any kind
+struct hash_pair {
+    size_t operator()(const std::pair<std::pair<int, int>, std::pair<int, int>>& p) const
+    {
+        auto hash1 = std::hash<int>{}(p.first.first);
+        auto hash2 = std::hash<int>{}(p.second.first);
+
+        if (hash1 != hash2) {
+            return hash1 ^ hash2;
+        }
+
+        // If hash1 == hash2, their XOR is zero.
+        return hash1;
+    }
+};
+
+
 template <class T>
 std::pair<std::pair<T, int>, std::pair<T, int>> connect_gfa_nodes(std::pair<T, int> v1, std::pair<T, int> v2) {
     std::pair<std::pair<T, int>, std::pair<T, int>> e;
@@ -49,7 +66,7 @@ std::vector<std::string> split_s(std::string line, char sep){
 
 
 template <class T>
-void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result) {
+void weight_gfa(std::vector<std::string> line, std::unordered_map<std::pair<std::pair<T, int>, std::pair<T, int>>, int, hash_pair> &result) {
     for (int i = 0; i < line.size() - 1; i++) {
         std::pair<int, int> v1 = {std::stoi(line[i].substr(0, line[i].size() - 1)), strand(line[i].back())};
         std::pair<int, int> v2 = {std::stoi(line[i+1].substr(0, line[i+1].size() - 1)), strand(line[i+1].back())};
@@ -77,10 +94,11 @@ struct ValueComparator
     }
 };
 
-std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> read_gfa(std::string gfa_file) {
-    std::map<int, Block<int>> blocks;
+
+std::pair<std::unordered_map<int, Block<int>>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair>> read_gfa(std::string gfa_file) {
+    std::unordered_map<int, Block<int>> blocks;
     std::ifstream f(gfa_file);
-    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> s;
+    std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair> s;
 
 
     if (!f.is_open()) {
@@ -113,7 +131,7 @@ std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, st
 
 
 
-    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> sortedMap;
+    std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair> sortedMap;
 
     for (const auto& pair : vector)
     {

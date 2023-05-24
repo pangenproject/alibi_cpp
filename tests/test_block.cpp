@@ -1,5 +1,6 @@
 #include "../src/Block.cpp"
 #include <map>
+#include <unordered_map>
 
 #include <boost/test/data/test_case.hpp>
 #include <boost/test/unit_test.hpp>
@@ -10,7 +11,7 @@ BOOST_AUTO_TEST_CASE(block_union_to_for_tree_blocks) {
             Block<int> block1(1, "actg");
             Block<int> block2(2, "actg");
             Block<int> block3(3, "actg");
-            std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
+            std::unordered_map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
             block3.uniontoMidst(block2, blocks, 1, 1);
             block2.unionto(block1, blocks, 1, 1);
             block3.find(blocks);
@@ -26,7 +27,7 @@ BOOST_AUTO_TEST_CASE(block_union_to_for_tree_blocks) {
 BOOST_AUTO_TEST_CASE(block_union_to_two_blocks) {
     Block<int> block1(1, "actg");
     Block<int> block2(2, "actg");
-    std::map<int, Block<int>&> blocks;
+    std::unordered_map<int, Block<int>&> blocks;
     blocks.insert({1, block1});
     blocks.insert({2, block2});
     int flank = 1;
@@ -41,7 +42,7 @@ BOOST_AUTO_TEST_CASE(block_union_mid_to_three_blocks) {
     Block<int> block1(1, "actg");
     Block<int> block2(2, "actg");
     Block<int> block3(3, "actg");
-    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
 
     block2.unionto(block1, blocks, 1, 1);
     block3.uniontoMidst(block1, blocks, 1,1);
@@ -60,7 +61,7 @@ BOOST_AUTO_TEST_CASE(block_union_mid_to_six_blocks) {
     Block<int> block6(6, "aa");
 
 
-    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}, {4, block4}, {5, block5},  {6, block6}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}, {4, block4}, {5, block5},  {6, block6}};
 
 
     block2.unionto(block1, blocks, 1, 1);
@@ -83,7 +84,7 @@ BOOST_AUTO_TEST_CASE(block_union_two_to_three_blocks) {
     Block<int> block1(1, "actg");
     Block<int> block2(2, "actg");
     Block<int> block3(3, "actg");
-    std::map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, block1}, {2, block2}, {3, block3}};
 
     block3.unionto(block1, blocks, 1, 1);
     block1.unionto(block2, blocks, 1, 1);

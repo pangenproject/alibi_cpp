@@ -8,7 +8,7 @@
 #include <functional>
 
 template <class T>
-void reorder(std::vector<T> R_f, std::vector<T> R_b,  std::map<T, Block<T>&> blocks){
+void reorder(std::vector<T> R_f, std::vector<T> R_b,  std::unordered_map<T, Block<T>&> blocks){
 
     std::sort(R_f.begin(), R_f.end(), [&](T x, T y){
         return blocks.find(x)->second.order(blocks) < blocks.find(y)->second.order(blocks);
@@ -36,7 +36,7 @@ void reorder(std::vector<T> R_f, std::vector<T> R_b,  std::map<T, Block<T>&> blo
 }
 
 template <class T>
-bool addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, float w, Graph<T> G, std::map<T, Block<T>&> blocks){
+bool addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, float w, Graph<T> G, std::unordered_map<T, Block<T>&> blocks){
     T x = e.first.first;
     T y = e.second.first;
     int lb = blocks.find(y)->second.order(blocks);
@@ -62,7 +62,7 @@ bool addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, f
 
 //Add edge between blocks of different components
 template <class T>
-void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e, Graph<T> G, std::map<T, Block<T>&> blocks){
+void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e, Graph<T> G, std::unordered_map<T, Block<T>&> blocks){
     int reverse = 1;
     int flank = 1;
     T x = e.first.first;
@@ -113,21 +113,25 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
 
 }
 
-std::pair<Graph<int>, std::map<int, Block<int>>> linSort(std::string filename){
-    std::pair<std::map<int, Block<int>>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa(filename);
-
+std::pair<Graph<int>, std::unordered_map<int, Block<int>>> linSort(std::string filename){
+    std::pair<std::unordered_map<int, Block<int>>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair>> result = read_gfa(filename);
+    std::cout << "done";
     Graph<int> G;
-    std::map<int, Block<int>> blocks = result.first;
-    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> edges = result.second;
+    std::unordered_map<int, Block<int>> blocks = result.first;
 
-    std::map<int, Block<int>&> blocks_ref;
+
+    std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair> edges = result.second;
+
+    std::unordered_map<int, Block<int>&> blocks_ref;
 
     // Przepisanie mapy obiektów na mapę referencji
     for (auto& pair : blocks) {
         blocks_ref.insert({pair.first, std::ref(pair.second)});
+        G.adj_list.insert({pair.first, {}});
     }
 
     for (auto el: edges) {
+        std::cout << "2";
         int v1 = el.first.first.first;
         int v2 = el.first.second.first;
 

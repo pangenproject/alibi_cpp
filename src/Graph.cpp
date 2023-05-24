@@ -3,6 +3,7 @@
 #include "Block.h"
 #include <string>
 #include <stack>
+#include <unordered_map>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ void Graph<T>:: addVertex(T val, set<T> edges){
     //if the vertex is already created, the add the list of connections
     //to that vertex, otherwise create a new vertex and create a new set
     //of connections for the vertex
-    typename map<T, set<T> >::iterator it = adj_list.find(val);
+    typename unordered_map<T, set<T> >::iterator it = adj_list.find(val);
     if (it != adj_list.end()){
         it->second.insert(edges.begin(), edges.end());
     }
@@ -27,8 +28,8 @@ void Graph<T>:: addVertex(T val, set<T> edges){
 
     // for all the connections, add the vertex to their corresponding
     // connection set
-    for (T elem: edges){
-        typename map<T, set<T> > :: iterator it1 = adj_list.find(elem);
+    for (T elem: edges) {
+        typename unordered_map<T, set<T> > :: iterator it1 = adj_list.find(elem);
         if (it1 != adj_list.end()){
             it1->second.insert(val);
         }
@@ -45,7 +46,7 @@ set<T> Graph<T>:: getAdjacent(T vertex){
 }
 
 template <class T>
-vector<T> Graph<T>:: outEdges(T vertex, std::map<T, Block<T>&> blocks, int ub){
+vector<T> Graph<T>:: outEdges(T vertex, std::unordered_map<T, Block<T>&> blocks, int ub){
     vector<T> v;
     int order = blocks.find(vertex)->second.order(blocks);
     for (auto u: this->getAdjacent(vertex)){
@@ -59,7 +60,7 @@ vector<T> Graph<T>:: outEdges(T vertex, std::map<T, Block<T>&> blocks, int ub){
 }
 
 template <class T>
-vector<T> Graph<T>::inEdges(T vertex, std::map<T, Block<T>&> blocks, int lb){
+vector<T> Graph<T>::inEdges(T vertex, std::unordered_map<T, Block<T>&> blocks, int lb){
     vector<T> v;
     int order = blocks.find(vertex)->second.order(blocks);
     for (auto u: this->getAdjacent(vertex)){
@@ -73,7 +74,7 @@ vector<T> Graph<T>::inEdges(T vertex, std::map<T, Block<T>&> blocks, int lb){
 }
 
 template <class T>
-vector<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
+vector<T> Graph<T>::dfsF(T root, std::unordered_map<T, Block<T>&> blocks, int ub){
     std::set<T> visited ;
     std::stack<T> my_stack;
     my_stack.push(root);
@@ -102,7 +103,7 @@ vector<T> Graph<T>::dfsF(T root, std::map<T, Block<T>&> blocks, int ub){
 }
 
 template <class T>
-vector<T> Graph<T>::dfsB(T root, std::map<T, Block<T>&> blocks, int lb){
+vector<T> Graph<T>::dfsB(T root, std::unordered_map<T, Block<T>&> blocks, int lb){
     std::set<T> visited ;
     std::stack<T> my_stack;
     my_stack.push(root);

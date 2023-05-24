@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(connect_gfa_nodes_test){
 
 BOOST_AUTO_TEST_CASE(weight_gfa_read){
     std::vector<std::string> string_input = {"11+", "12-", "13+"};
-    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> expected;
+    std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> expected;
 
     std::pair<int, int> v1  = {10, 1};
     std::pair<int, int> v2  = {11, 1};
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(weight_gfa_read){
     expected.insert({{v1, v2}, 1});
     expected.insert({{v3, v4}, 1});
 
-    std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> output;
+    std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int> output;
 
     weight_gfa(string_input, output);
 
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(weight_gfa_read){
 }
 
 BOOST_AUTO_TEST_CASE(gfa_readcx) {
-    std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa("../data/test.gfa");
+    std::pair<std::unordered_map<int, Block<int>&>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa("../data/test.gfa");
 
 }
 

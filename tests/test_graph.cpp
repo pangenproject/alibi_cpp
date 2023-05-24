@@ -58,7 +58,7 @@ BOOST_AUTO_TEST_CASE(DFSB_for_blocs){
     Block<int> b3(3, "ttgg");
     Block<int> b4(4, "aatc");
     Block<int> b5(5, "aatc");
-    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
 
     b4.unionto(b1, blocks, 1, 1);
     b3.unionto(b1, blocks, 1, 1);
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(DFSF_for_blocs){
     Block<int> b3(3, "ttgg");
     Block<int> b4(4, "aatc");
     Block<int> b5(5, "aatc");
-    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
 
     b4.unionto(b1, blocks, 1, 1);
     b3.unionto(b1, blocks, 1, 1);

@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks) {
     Block<int> b4(4, "aa");
     Block<int> b5(5, "aatc");
 
-    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
 
     b4.unionto(b1, blocks, 1, 1);
     b3.unionto(b1, blocks, 1, 1);
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_add_edges_within_component) {
     Block<int> b3(3, "ttgg");
     Block<int> b4(4, "aatc");
     Block<int> b5(5, "aatc");
-    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
 
     b4.unionto(b1, blocks, 1, 1);
     b3.unionto(b1, blocks, 1, 1);
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents) {
     Block<int> b5(5, "gat");
 
 
-    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}};
 
     b2.unionto(b1, blocks, 1, 1);
     b3.unionto(b2, blocks, 1, 1);
@@ -107,7 +107,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
     Block<int> b5(5, "gat");
     Block<int> b6(6, "aa");
 
-    std::map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}, {6, b6}};
+    std::unordered_map<int, Block<int>&> blocks = {{1, b1}, {2, b2}, {3, b3}, {4, b4},  {5, b5}, {6, b6}};
 
     b2.unionto(b1, blocks, 1, 1);
     b3.unionto(b2, blocks, 1, 1);
@@ -143,11 +143,11 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
 }
 
 BOOST_AUTO_TEST_CASE(linsort_main_function) {
-    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test.gfa");
+    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("../data/test.gfa");
 
-    std::map<int, Block<int>> blocks = result.second;
+    std::unordered_map<int, Block<int>> blocks = result.second;
 
-    std::map<int, Block<int>&> blocks_ref;
+    std::unordered_map<int, Block<int>&> blocks_ref;
 
     // Przepisanie mapy obiektów na mapę referencji
     for (auto& pair : blocks) {
@@ -165,11 +165,11 @@ BOOST_AUTO_TEST_CASE(linsort_main_function) {
 }
 
 BOOST_AUTO_TEST_CASE(linsort_rj) {
-    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test_rj.gfa");
+    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("../data/test_rj.gfa");
 
-    std::map<int, Block<int>> blocks = result.second;
+    std::unordered_map<int, Block<int>> blocks = result.second;
 
-    std::map<int, Block<int>&> blocks_ref;
+    std::unordered_map<int, Block<int>&> blocks_ref;
     std::cout << result.first;
 
     // Przepisanie mapy obiektów na mapę referencji
@@ -186,11 +186,11 @@ BOOST_AUTO_TEST_CASE(linsort_rj) {
 
 
 BOOST_AUTO_TEST_CASE(linsort_fa) {
-    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test_rj.gfa");
+    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("../data/test_rj.gfa");
 
-    std::map<int, Block<int>> blocks = result.second;
+    std::unordered_map<int, Block<int>> blocks = result.second;
 
-    std::map<int, Block<int>&> blocks_ref;
+    std::unordered_map<int, Block<int>&> blocks_ref;
     std::cout << result.first;
 
     // Przepisanie mapy obiektów na mapę referencji
@@ -206,11 +206,11 @@ BOOST_AUTO_TEST_CASE(linsort_fa) {
 }
 
 BOOST_AUTO_TEST_CASE(linsort_main_function_for_article_gfa) {
-    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("../data/test_article.gfa");
+    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("../data/test_article.gfa");
 
-    std::map<int, Block<int>> blocks = result.second;
+    std::unordered_map<int, Block<int>> blocks = result.second;
 
-    std::map<int, Block<int>&> blocks_ref;
+    std::unordered_map<int, Block<int>&> blocks_ref;
 
     // Przepisanie mapy obiektów na mapę referencji
     for (auto& pair : blocks) {

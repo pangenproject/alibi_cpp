@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.25)
-project(alibi_cpp)
 
 set(CMAKE_CXX_STANDARD 17)
 
 
-project(alibi_cpp)
+project(alibicpp)
 
 # Dodaj plik main.cpp jako główny plik źródłowy
-add_executable(NazwaProjektu main.cpp)
+add_executable(alibicpp main.cpp)
 
 # Dodaj moduły Block.h i Block.cpp
 add_library(Block src/Block.cpp src/Block.h)

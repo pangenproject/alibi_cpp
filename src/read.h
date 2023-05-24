@@ -13,9 +13,9 @@ std::pair<std::pair<T, int>, std::pair<T, int>> connect_gfa_nodes(std::pair<T, i
 std::vector<std::string> split_s(std::string line, char sep);
 
 template <class T>
-void weight_gfa(std::vector<std::string> line, std::map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result);
+void weight_gfa(std::vector<std::string> line, std::unordered_map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result);
 
 
-std::pair<std::map<int, Block<int>&>,  std::map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> read_gfa(std::string gfa_file);
+std::pair<std::unordered_map<int, Block<int>&>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> read_gfa(std::string gfa_file);
 
 #endif //TESTS_READ_H

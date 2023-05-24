@@ -5,11 +5,11 @@
 #include <map>
 
 int main() {
-    std::pair<Graph<int>, std::map<int, Block<int>>> result = linSort("/Users/amso/CLionProjects/alibi_cpp/tests/data/1y3b.contigs.gfa");
+    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("/Users/amso/CLionProjects/alibi_cpp/tests/data/simData_10_10_1.gfa");
 
-    std::map<int, Block<int>> blocks = result.second;
+    std::unordered_map<int, Block<int>> blocks = result.second;
 
-    std::map<int, Block<int>&> blocks_ref;
+    std::unordered_map<int, Block<int>&> blocks_ref;
 
     // Przepisanie mapy obiektów na mapę referencji
     for (auto& pair : blocks) {

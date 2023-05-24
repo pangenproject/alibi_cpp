@@ -23,7 +23,7 @@ std::set<T> getUnion(const std::set<T>& a, const std::set<T>& b)
 }
 
 template <class T>
-T Block<T>::find(std::map<T, Block<T>&> &blocks){
+T Block<T>::find(std::unordered_map<T, Block<T>&> &blocks){
     T rootid = this->id;
     if(this->toroot != rootid){
         rootid = blocks.find(this->toroot)->second.find(blocks);
@@ -50,7 +50,7 @@ void Block<T>::setShift(int s){
 }
 
 template <class T>
-void Block<T>::unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank){
+void Block<T>::unionto(Block other, std::unordered_map<T, Block<T>&> blocks, int reverse, int flank){
     T selfid = this->find(blocks);
     T otherid = other.find(blocks);
     Block & selfroot = blocks.find(selfid)->second;
@@ -69,7 +69,7 @@ void Block<T>::unionto(Block other, std::map<T, Block<T>&> blocks, int reverse, 
 }
 
 template <class T>
-int Block<T>::orientation(std::map<T, Block<T>&> blocks) {
+int Block<T>::orientation(std::unordered_map<T, Block<T>&> blocks) {
     T selfroot = this->find(blocks);
 
     return this->orient;
@@ -77,7 +77,7 @@ int Block<T>::orientation(std::map<T, Block<T>&> blocks) {
 
 
 template <class T>
-int Block<T>::order(std::map<T, Block<T>&> blocks) {
+int Block<T>::order(std::unordered_map<T, Block<T>&> blocks) {
     T selfroot = this->find(blocks);
 
     return this->shift + this->reorder_shift;
@@ -86,14 +86,14 @@ int Block<T>::order(std::map<T, Block<T>&> blocks) {
 
 
 template <class T>
-void Block<T>::reorder(std::map<T, Block<T>&> blocks, int n) {
+void Block<T>::reorder(std::unordered_map<T, Block<T>&> blocks, int n) {
     this->reorder_shift += n - this->order(blocks);
 
 }
 
 
 template <class T>
-int Block<T>::size(std::map<T, Block<T>&> blocks) {
+int Block<T>::size(std::unordered_map<T, Block<T>&> blocks) {
     T selfroot = this->find(blocks);
     Block & otherBlock = blocks.find(selfroot)->second;
     return otherBlock.flanks[1] + otherBlock.flanks[-1] + 1;
@@ -101,7 +101,7 @@ int Block<T>::size(std::map<T, Block<T>&> blocks) {
 }
 
 template <class T>
-int Block<T>::minimum(std::map<T, Block<T>&> blocks) {
+int Block<T>::minimum(std::unordered_map<T, Block<T>&> blocks) {
     T selfroot = this->find(blocks);
 
     Block & otherBlock = blocks.find(selfroot)->second;
@@ -111,7 +111,7 @@ int Block<T>::minimum(std::map<T, Block<T>&> blocks) {
 
 
 template <class T>
-int Block<T>::maximum(std::map<T, Block<T>&> blocks) {
+int Block<T>::maximum(std::unordered_map<T, Block<T>&> blocks) {
     T selfroot = this->find(blocks);
 
     Block & otherBlock = blocks.find(selfroot)->second;
@@ -121,7 +121,7 @@ int Block<T>::maximum(std::map<T, Block<T>&> blocks) {
 
 
 template <class T>
-void Block<T>::uniontoMidst(Block other, std::map<T, Block<T>&> blocks, int reverse, int flank){
+void Block<T>::uniontoMidst(Block other, std::unordered_map<T, Block<T>&> blocks, int reverse, int flank){
     T selfid = this->find(blocks);
     T otherid = other.find(blocks);
     Block & selfroot = blocks.find(selfid)->second;
