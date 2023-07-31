@@ -7,6 +7,7 @@
 #include <set>
 #include "Block.h"
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 

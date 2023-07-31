@@ -3,6 +3,7 @@
 #include "src/linsort.h"
 #include "src/read.h"
 #include <map>
+#include <functional>
 
 int main() {
     std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("/Users/amso/CLionProjects/alibi_cpp/tests/data/simData_10_10_1.gfa");
