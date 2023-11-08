@@ -104,7 +104,7 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
 
         c_mnist += k * G.getAdjacent(e.first.first).size();
 
-        if(c_end < c_mnist){
+        if(c_end <= c_mnist){
             b2.unionto(b1, blocks, reverse, flank);
         } else {
             b2.uniontoMidst(b1, blocks, reverse, flank);
@@ -129,15 +129,14 @@ std::pair<Graph<int>, std::unordered_map<int, Block<int>>> linSort(std::string f
         blocks_ref.insert({pair.first, std::ref(pair.second)});
         G.adj_list.insert({pair.first, {}});
     }
-
+    int count = 0;
     for (auto el: edges) {
-        std::cout << "2";
         int v1 = el.first.first.first;
         int v2 = el.first.second.first;
 
         int o1 = el.first.first.second;
         int o2 = el.first.second.second;
-
+        //std::cout <<count <<"\n";
         if(blocks.find(v1)->second.find(blocks_ref) == blocks.find(v2)->second.find(blocks_ref) ){
 
             if(blocks.find(v1)->second.orientation(blocks_ref) * blocks.find(v2)->second.orientation(blocks_ref) == o1*o2){
@@ -157,6 +156,7 @@ std::pair<Graph<int>, std::unordered_map<int, Block<int>>> linSort(std::string f
             addEdgeBetweenComponents(el.first, G, blocks_ref);
             G.addVertex(v1, {v2});
         }
+        count += 1;
     }
 
     return {G, blocks};
