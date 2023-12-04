@@ -36,9 +36,9 @@ void reorder(std::vector<T> R_f, std::vector<T> R_b,  std::unordered_map<T, Bloc
 }
 
 template <class T>
-bool addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, float w, Graph<T> G, std::unordered_map<T, Block<T>&> blocks){
-    T x = e.first.first;
-    T y = e.second.first;
+bool addEdgeWithinComponent(std::tuple<int, int, int, int> e, float w, Graph<T> G, std::unordered_map<T, Block<T>&> blocks){
+    T x = std::get<0>(e);
+    T y = std::get<3>(e);
     int lb = blocks.find(y)->second.order(blocks);
     int ub = blocks.find(x)->second.order(blocks);
     if(lb == ub){
@@ -62,21 +62,21 @@ bool addEdgeWithinComponent(std::pair<std::pair<T, int>, std::pair<T, int>> e, f
 
 //Add edge between blocks of different components
 template <class T>
-void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e, Graph<T> G, std::unordered_map<T, Block<T>&> blocks){
+void addEdgeBetweenComponents(std::tuple<int, int, int, int> e, Graph<T> G, std::unordered_map<T, Block<T>&> blocks){
     int reverse = 1;
     int flank = 1;
-    T x = e.first.first;
-    T y = e.second.first;
+    int x = std::get<0>(e);
+    int y = std::get<2>(e);;
 
 
     if( blocks.find(x)->second.size(blocks) <  blocks.find(y)->second.size(blocks)){
-        e = std::make_pair(e.second, e.first);
+        e = std::make_tuple(std::get<2>(e), std::get<3>(e), std::get<0>(e), std::get<1>(e));
     }
-    int side1 = e.first.second;
-    int side2 = e.second.second;
+    int side1 = std::get<1>(e);
+    int side2 = std::get<3>(e);
 
-    Block b1 =  blocks.find(e.first.first)->second;
-    Block b2 =  blocks.find(e.second.first)->second;
+    Block b1 =  blocks.find(std::get<0>(e))->second;
+    Block b2 =  blocks.find(std::get<2>(e))->second;
 
     if(b1.orientation(blocks)*b2.orientation(blocks) == side1*side2){
         reverse = -1;
@@ -102,7 +102,7 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
         }
         int k = b2.size(blocks);
 
-        c_mnist += k * G.getAdjacent(e.first.first).size();
+        c_mnist += k * G.getAdjacent(std::get<0>(e)).size();
 
         if(c_end <= c_mnist){
             b2.unionto(b1, blocks, reverse, flank);
@@ -114,13 +114,13 @@ void addEdgeBetweenComponents(std::pair<std::pair<T, int>, std::pair<T, int>> e,
 }
 
 std::pair<Graph<int>, std::unordered_map<int, Block<int>>> linSort(std::string filename){
-    std::pair<std::unordered_map<int, Block<int>>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair>> result = read_gfa(filename);
+    std::pair<std::unordered_map<int, Block<int>>,  std::unordered_map<std::tuple<int, int, int, int>, int, hash_pair>> result = read_gfa(filename);
     std::cout << "done";
     Graph<int> G;
     std::unordered_map<int, Block<int>> blocks = result.first;
 
 
-    std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int, hash_pair> edges = result.second;
+    std::unordered_map<std::tuple<int, int, int, int>, int, hash_pair> edges = result.second;
 
     std::unordered_map<int, Block<int>&> blocks_ref;
 
@@ -130,12 +130,18 @@ std::pair<Graph<int>, std::unordered_map<int, Block<int>>> linSort(std::string f
         G.adj_list.insert({pair.first, {}});
     }
     int count = 0;
-    for (auto el: edges) {
-        int v1 = el.first.first.first;
-        int v2 = el.first.second.first;
+    for (auto& el : edges) {
+        // Uzyskanie dostępu do klucza i wartości z elementu mapy
+        const std::tuple<int, int, int, int>& edgeKey = el.first;
+        int edgeValue = el.second;
 
-        int o1 = el.first.first.second;
-        int o2 = el.first.second.second;
+        // Uzyskanie poszczególnych wartości z krotki
+        int v1 = std::get<0>(edgeKey);
+        int v2 = std::get<2>(edgeKey);
+
+        int o1 = std::get<1>(edgeKey);
+        int o2 = std::get<3>(edgeKey);
+
         //std::cout <<count <<"\n";
         if(blocks.find(v1)->second.find(blocks_ref) == blocks.find(v2)->second.find(blocks_ref) ){
 
@@ -146,7 +152,7 @@ std::pair<Graph<int>, std::unordered_map<int, Block<int>>> linSort(std::string f
                     G.fa.insert(el.first);
                 }
             } else {
-                std::pair<std::pair<int, int>, std::pair<int, int>> e = std::make_pair(el.first.second, el.first.first);
+                std::tuple<int, int, int, int> e = {std::get<3>(el.first), std::get<2>(el.first), std::get<0>(el.first), std::get<1>(el.first)};
                 if (!addEdgeWithinComponent(e, el.second, G, blocks_ref)){
                     G.fa.insert(el.first);
                 }

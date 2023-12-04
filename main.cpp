@@ -6,7 +6,7 @@
 #include <functional>
 
 int main() {
-    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("../tests/data/simData_10_10_1.gfa");
+    std::pair<Graph<int>, std::unordered_map<int, Block<int>>> result = linSort("../tests/data/simData_10_10_1_a.gfa");
 
     std::unordered_map<int, Block<int>> blocks = result.second;
 
@@ -16,5 +16,8 @@ int main() {
     for (auto& pair : blocks) {
         blocks_ref.insert({pair.first, std::ref(pair.second)});
     }
+    std::cout << result.first.fa.size() << "Feedback Arcs";
+    std::cout << result.first.rj.size() << "Rev Arcs";
+
     std::cout << "end";
 }

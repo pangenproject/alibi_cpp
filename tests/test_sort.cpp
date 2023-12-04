@@ -52,9 +52,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_add_edges_within_component) {
     graph1.addVertex(1, connections1);
     graph1.addVertex(4, {2});
     graph1.addVertex(2, {5});
-    std::pair first = std::make_pair(5,1);
-    std::pair second = std::make_pair(3,-1);
-    std::pair<std::pair<int, int>, std::pair<int, int>> v  = std::make_pair(first, second);
+    std::tuple<int, int, int, int> v  = std::make_tuple(5, 1, 3, -1);
     addEdgeWithinComponent(v, 1, graph1, blocks);
 
     std::vector<int> orders = {b1.order(blocks), b4.order(blocks), b2.order(blocks), b5.order(blocks), b3.order(blocks)};
@@ -85,9 +83,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents) {
     graph1.addVertex(4, {5});
 
 
-    std::pair first = std::make_pair(2, 1);
-    std::pair second = std::make_pair(4,-1);
-    std::pair<std::pair<int, int>, std::pair<int, int>> v  = std::make_pair(first, second);
+    std::tuple<int, int, int, int> v  = std::make_tuple(2, 1, 4, -1);
     addEdgeBetweenComponents(v, graph1, blocks);
 
 
@@ -125,7 +121,7 @@ BOOST_AUTO_TEST_CASE(sort_blocks_addEdgeBetweenComponents_with_midst) {
     std::pair first = std::make_pair(1, 1);
     std::pair second = std::make_pair(6,-1);
 
-    std::pair<std::pair<int, int>, std::pair<int, int>> v  = std::make_pair(first, second);
+    std::tuple<int, int, int, int> v  = std::make_pair(first, second);
 
     addEdgeBetweenComponents(v, graph1, blocks);
 

@@ -11,11 +11,11 @@ template <class T>
 std::pair<std::pair<T, int>, std::pair<T, int>> connect_gfa_nodes(std::pair<T, int> v1, std::pair<T, int> v2);
 
 std::vector<std::string> split_s(std::string line, char sep);
+struct hash_pair {
 
-template <class T>
-void weight_gfa(std::vector<std::string> line, std::unordered_map<std::pair<std::pair<T, int>, std::pair<T, int>>, int> &result);
+};
+void weight_gfa(std::vector<std::string> line, std::unordered_map<std::tuple<int, int, int, int>, int, hash_pair> &result);
 
-
-std::pair<std::unordered_map<int, Block<int>&>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> read_gfa(std::string gfa_file);
+std::pair<std::unordered_map<int, Block<int>&>,  std::unordered_map<std::tuple<int, int, int, int>, int>> read_gfa(std::string gfa_file);
 
 #endif //TESTS_READ_H

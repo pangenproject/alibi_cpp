@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(split_string_by_comma) {
 
 }
 BOOST_AUTO_TEST_CASE(connect_gfa_nodes_test){
-    std::pair<std::pair<int, int>, std::pair<int, int>> expected = {{10, 1},{11, 1}};
+    std::tuple<int, int, int, int> expected = std::make_tuple(10, 1, 11, 1);
     std::pair<int, int> v1  = {10, 1};
     std::pair<int, int> v2  = {11, -1};
 
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(weight_gfa_read){
 }
 
 BOOST_AUTO_TEST_CASE(gfa_readcx) {
-    std::pair<std::unordered_map<int, Block<int>&>,  std::unordered_map<std::pair<std::pair<int, int>, std::pair<int, int>>, int>> result = read_gfa("../data/test.gfa");
+    std::pair<std::unordered_map<int, Block<int>&>,  std::unordered_map<std::tuple<int, int, int, int>, int>> result = read_gfa("../data/test.gfa");
 
 }
 

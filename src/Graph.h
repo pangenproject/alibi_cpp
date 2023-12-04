@@ -17,8 +17,8 @@ class Graph {
 private:
 
 public:
-    set<std::pair<std::pair<T, int>, std::pair<T, int>>> fa; // set of feedback arcs
-    set<std::pair<std::pair<T, int>, std::pair<T, int>>> rj; //set of reversing joins
+    set<std::tuple<int, int, int, int>> fa; // set of feedback arcs
+    set<std::tuple<int, int, int, int>> rj; //set of reversing joins
     unordered_map<T, set<T> > adj_list;
     Graph();
     void addVertex(T val, set<T> edges);
